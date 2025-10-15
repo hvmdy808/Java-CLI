@@ -66,10 +66,22 @@ public class Terminal {
             parser.parse(input);
             if (parser.getCommandName().isEmpty()) continue;
             if(parser.getCommandName().equals("pwd")){
+                if (parser.getArgs().length != 0) {
+                    System.out.println("Command 'pwd' must have no arguments.");
+                    continue;
+                }
                 System.out.println(pwd());
             } else if(parser.getCommandName().equals("cd")){
+                if (parser.getArgs().length > 1) {
+                    System.out.println("Command 'cd' must have no more than 1 argument.");
+                    continue;
+                }
                 cd(parser.getArgs());
             } else if(parser.getCommandName().equals("ls")){
+                if (parser.getArgs().length != 0) {
+                    System.out.println("Command 'ls' must have no arguments.");
+                    continue;
+                }
                 ls();
             } else if(parser.getCommandName().equals("mkdir")){
                 System.out.println("lol4");
@@ -94,6 +106,10 @@ public class Terminal {
             } else if(parser.getCommandName().equals("unzip")){
                 System.out.println("lol14");
             } else if(parser.getCommandName().equals("exit")){
+                if (parser.getArgs().length != 0) {
+                    System.out.println("Command 'exit' must have no arguments.");
+                    continue;
+                }
                 break;
             }
             else {
