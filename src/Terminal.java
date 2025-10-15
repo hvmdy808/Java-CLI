@@ -5,7 +5,7 @@ public class Terminal {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true){
-            System.out.print(">");
+            System.out.print("> ");
             String input = scanner.nextLine();
             input = input.trim();
             parser.parse(input);
@@ -56,16 +56,3 @@ public class Terminal {
         }
     }
 }
-
-
-
-
-//         Parser parser = new Parser();
-////        parser.parse("cp -r sagliaejgilahg etiahegkehus");
-////        System.out.println(parser.getCommandName());
-////        for (int i = 0; i < parser.getArgs().length; i++){
-////            if (parser.getArgs()[i] == null){
-////                break;
-////            }
-////            System.out.println(parser.getArgs()[i]);
-////        }
