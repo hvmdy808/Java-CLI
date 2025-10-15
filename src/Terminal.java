@@ -5,8 +5,11 @@ public class Terminal {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true){
+            System.out.print(">");
             String input = scanner.nextLine();
+            input = input.trim();
             parser.parse(input);
+            if (parser.getCommandName().isEmpty()) continue;
             if(parser.getCommandName().equals("pwd")){
                 System.out.println("lol1");
             } else if(parser.getCommandName().equals("cd")){
