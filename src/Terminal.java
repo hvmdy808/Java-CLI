@@ -1,7 +1,62 @@
 import java.util.Scanner;
-
+import java.util.Arrays;
+import java.io.File;
 public class Terminal {
-    static Parser parser = new Parser();
+   static Parser parser = new Parser();
+
+    static File currentDirectory = new File(System.getProperty("user.dir"));
+
+    public static String pwd() {
+        return currentDirectory.getAbsolutePath();
+    }
+    public static void cd(String[] args) {
+
+        if (args.length == 0) {
+            currentDirectory = new File(System.getProperty("user.home"));
+            return;
+        }
+        String fullPath = String.join(" ", args).replace("\"", "").trim();
+
+        if (fullPath.equals("..")) {
+            File parent = currentDirectory.getParentFile();
+            if (parent != null) {
+                currentDirectory = parent;
+            } else {
+                System.out.println("Already at root directory.");
+            }
+            return;
+        }
+        File newDir = new File(fullPath);
+        if (!newDir.isAbsolute()) {
+            newDir = new File(currentDirectory, fullPath);
+        }
+        if (newDir.exists() && newDir.isDirectory()) {
+            currentDirectory = newDir;
+        } else {
+            System.out.println("Error: Directory not found.");
+        }
+    }
+
+  public static String[] ls() {
+      File[] files = currentDirectory.listFiles();
+
+      if (files == null || files.length == 0) {
+          System.out.println("Directory is empty.");
+          return new String[0];
+      }
+      Arrays.sort(files, (a, b) -> a.getName().compareToIgnoreCase(b.getName()));
+      String[] fileNames = new String[files.length];
+      for (int i = 0; i < files.length; i++) {
+          fileNames[i] = files[i].getName();
+      }
+
+      for (String name : fileNames) {
+          System.out.println(name);
+      }
+
+      return fileNames;
+  }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true){
@@ -11,11 +66,11 @@ public class Terminal {
             parser.parse(input);
             if (parser.getCommandName().isEmpty()) continue;
             if(parser.getCommandName().equals("pwd")){
-                System.out.println("lol1");
+                System.out.println(pwd());
             } else if(parser.getCommandName().equals("cd")){
-                System.out.println("lol2");
+                cd(parser.getArgs());
             } else if(parser.getCommandName().equals("ls")){
-                System.out.println("lol3");
+                ls();
             } else if(parser.getCommandName().equals("mkdir")){
                 System.out.println("lol4");
             } else if(parser.getCommandName().equals("rmdir")){
