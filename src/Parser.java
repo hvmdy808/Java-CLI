@@ -1,7 +1,13 @@
+import java.util.Arrays;
+
 public class Parser {
     private String commandName;
     private String[] args;
+    private String redirectOp;
+    private String redirectFile;
     public boolean parse(String input) {
+        redirectOp = null;
+        redirectFile = null;
         try{
             input = input.trim();
             if (input.isEmpty()) {
@@ -25,6 +31,21 @@ public class Parser {
                 args[j] = arr[i];
                 j++;
             }
+
+
+            for (int k = 0; k < args.length; k++) {
+                if (args[k].equals(">") || args[k].equals(">>")) {
+                    redirectOp = args[k];
+                    if (k + 1 < args.length) {
+                        redirectFile = args[k + 1];
+                    } else {
+                        return false;
+                    }
+                    args = Arrays.copyOfRange(args, 0, k);
+                    break;
+                }
+            }
+
             return true;
         }
         catch (Exception e) {
@@ -33,10 +54,9 @@ public class Parser {
             return false;
         }
     }
-    public String getCommandName() {
-        return commandName;
-    }
-    public String[] getArgs() {
-        return args;
-    }
+    public String getCommandName() {return commandName;}
+    public String[] getArgs() {return args;}
+    public String getRedirectOp() { return redirectOp; }
+    public String getRedirectFile() { return redirectFile; }
+
 }

@@ -32,14 +32,12 @@ public class Terminal {
                 System.out.println("lol10");
             } else if(parser.getCommandName().equals("wc")){
                 System.out.println("lol11");
-            } else if(parser.getCommandName().equals(">")){
+            } else if(parser.getCommandName().equals("echo")){
                 System.out.println("lol12");
-            } else if(parser.getCommandName().equals(">>")){
-                System.out.println("lol13");
             } else if(parser.getCommandName().equals("zip")){
-                System.out.println("lol14");
+                System.out.println("lol13");
             } else if(parser.getCommandName().equals("unzip")){
-                System.out.println("lol15");
+                System.out.println("lol14");
             } else if(parser.getCommandName().equals("exit")){
                 break;
             }
