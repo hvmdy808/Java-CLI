@@ -74,6 +74,51 @@ public class Terminal {
         }
     }
 
+    public static void cat(String[] args) {
+        if (args.length < 1 || args.length > 2) {
+            System.out.println("Command 'cat' takes one or two arguments.");
+            return;
+        }
+
+        StringBuilder content = new StringBuilder();
+
+        // Process each file
+        for (String filePath : args) {
+            File file;
+
+            // Handle absolute or relative paths
+            if (new File(filePath).isAbsolute()) {
+                file = new File(filePath);
+            } else {
+                file = new File(currentDirectory, filePath);
+            }
+
+            // Check if file exists
+            if (!file.exists() || !file.isFile()) {
+                System.out.println("Error: File not found: " + filePath);
+                return;
+            }
+
+            try {
+                // Read file content
+                Scanner scanner = new Scanner(file);
+                while (scanner.hasNextLine()) {
+                    content.append(scanner.nextLine()).append("\n");
+
+                }
+                scanner.close();
+            } catch (Exception e) {
+                System.out.println("Error reading file: " + e.getMessage());
+                return;
+            }
+        }
+
+
+
+        System.out.print(content.toString());
+
+    }
+
   public static String[] ls() {
       File[] files = currentDirectory.listFiles();
 
@@ -133,7 +178,7 @@ public class Terminal {
             } else if(parser.getCommandName().equals("rm")){
                 System.out.println("lol9");
             } else if(parser.getCommandName().equals("cat")){
-                System.out.println("lol10");
+                cat(parser.getArgs());
             } else if(parser.getCommandName().equals("wc")){
                 System.out.println("lol11");
             } else if(parser.getCommandName().equals("echo")){
