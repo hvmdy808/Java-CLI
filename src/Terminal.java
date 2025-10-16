@@ -36,6 +36,43 @@ public class Terminal {
             System.out.println("Error: Directory not found.");
         }
     }
+    public static void touch(String[] args) {
+        if (args.length != 1) {
+            System.out.println("Command 'touch' takes exactly one argument.");
+            return;
+        }
+
+        String filePath = args[0];
+        File file;
+
+        // Handle absolute or relative paths
+        if (new File(filePath).isAbsolute()) {
+            file = new File(filePath);
+        } else {
+            file = new File(currentDirectory, filePath);
+        }
+
+        try {
+            // Create parent directories if they don't exist
+            File parentDir = file.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs();
+            }
+
+            // Create the file
+            if (file.exists()) {
+                // Update timestamp if file exists (standard touch behavior)
+                file.setLastModified(System.currentTimeMillis());
+                System.out.println("File timestamp updated: " + file.getName());
+            } else if (file.createNewFile()) {
+                System.out.println("File created: " + file.getName());
+            } else {
+                System.out.println("Error: Could not create the file.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 
   public static String[] ls() {
       File[] files = currentDirectory.listFiles();
@@ -88,7 +125,7 @@ public class Terminal {
             } else if(parser.getCommandName().equals("rmdir")){
                 System.out.println("lol5");
             } else if(parser.getCommandName().equals("touch")){
-                System.out.println("lol6");
+                touch(parser.getArgs());
             } else if(parser.getCommandName().equals("cp")){
                 System.out.println("lol7");
             } else if(parser.getCommandName().equals("cp -r")){
